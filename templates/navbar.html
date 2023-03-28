@@ -1,0 +1,40 @@
+<!-- Add the link to Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- NavBar Start -->
+<nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" style="font-family: 'Poppins', sans-serif; font-weight: 600;">
+        <img src="/static/images/documents.png" width="30" height="30" alt="">
+        Automatic Form Processing
+    </a>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul class="navbar-nav" style="font-family: 'Poppins', sans-serif;">
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if current_page == 'upload' }}" href="/" style="transition: all 0.3s;">
+                    <img src="/static/images/file.png" width="30" height="30" alt="">
+                    Upload
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if current_page == 'search' }}" href="/search" style="transition: all 0.3s;">
+                    <img src="/static/images/search.png" width="30" height="30" alt="">
+                    Search & Delete
+                    <img src="/static/images/delete.png" width="30" height="30" alt="">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if current_page == 'results' }}" href="/results" style="transition: all 0.3s;">
+                    <img src="/static/images/stadistics.png" width="30" height="30" alt="">
+                    All Results
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if current_page == 'edit' }}" href="/edit" style="transition: all 0.3s;">
+                    <img src="/static/images/edit.png" width="30" height="30" alt="">
+                    Edit Form
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- Navbar End -->

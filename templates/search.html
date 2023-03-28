@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'head.html' %}
+
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="container mt-5">
+        <div class="alert alert-success">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Please enter the password to confirm deletion:</p>
+                    <input type="password" name="delete_password" id="delete_password" class="form-control"  placeholder="Admin Password" required>
+                    <div id="passwordError" class="alert alert-danger mt-2" style="display: none;">Incorrect password
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- NavBar Start -->
+    {% set current_page = 'search' %}
+    {% include 'navbar.html' %}
+    <!-- Navbar End -->
+    <center>
+        <!-- The form -->
+        <form class="example" action="/search" method="post">
+            <input type="text" placeholder="ใส่ชื่อผู้เบิกเพื่อค้นหา" id="searchname" name="searchname" required>
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+        <div class="table-container">
+            <table class="table table-bordered">
+                <form action="/delete" method="post" id="deleteForm">
+                    <div style="overflow-x:auto;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Image
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Date Upload</th>
+                                    <th scope="col">
+                                        <input type="checkbox" id="checkAll">
+                                        Select
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in data %}
+                                <tr>
+                                    <td style="font-weight: bold;">{{ row[0] }}</td>
+                                    <td><img src="/static/uploads/{{ row[1] }}" alt="" srcset="" height="100px"></td>
+                                    <td>{{ row[2] }}</td>
+                                    <td>{{ row[3] }}</td>
+                                    <td><input type="checkbox" name="record_ids" value="{{ row[0] }}"
+                                            class="recordCheckbox"></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i
+                            class="fa fa-trash"></i> Delete Selected</button>
+                </form>
+            </table>
+        </div>
+    </center>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script>
+        // Check password to delete
+        document.addEventListener('DOMContentLoaded', function () {
+            let deletePassword;
+
+            fetch('/get_admin_password')
+                .then(response => response.json())
+                .then(data => {
+                    deletePassword = data.password;
+                });
+
+            document.getElementById('confirmDelete').addEventListener('click', function () {
+                const enteredPassword = document.getElementById('delete_password').value;
+                const passwordError = document.getElementById('passwordError');
+
+                if (enteredPassword === deletePassword) {
+                    document.getElementById('deleteForm').submit();
+                } else {
+                    passwordError.style.display = 'block';
+                }
+            });
+        });
+        // Check all
+        document.getElementById('checkAll').addEventListener('change', function () {
+            const checkboxes = document.querySelectorAll('.recordCheckbox');
+            const checkAll = this.checked;
+
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = checkAll;
+            });
+        });
+    </script>
+</body>
+
+</html>
