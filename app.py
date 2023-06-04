@@ -212,7 +212,7 @@ def upload_file():
                 output_filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 # Save the processed image
                 processed_image = Image.fromarray(warped)
-                processed_image.save(output_filepath)
+                processed_image.save(output_filepath, format='JPEG', quality=60)  # Adjust quality value as needed
                 flash('Document scanned.')
             else:
                 flash('Cannot scan the image as warped is empty.')
