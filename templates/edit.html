@@ -16,11 +16,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Please enter the password to confirm edition:</p>
-                    <input type="password" class="form-control" id="admin_password" placeholder="Admin Password"
-                        required>
-                    <div id="passwordError" class="alert alert-danger mt-2" style="display: none;">Incorrect password
-                    </div>
+                    <p>Please enter the user and password to confirm edition:</p>
+                    <input type="text" class="form-control" id="admin_user" placeholder="Admin User" required>
+                    <br>
+                    <input type="password" class="form-control" id="admin_password" placeholder="Admin Password" required>
+                    <div id="passwordError" class="alert alert-danger mt-2" style="display: none;">Incorrect user or
+                        password.</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -64,18 +65,124 @@
         <div class="container">
             <div class="row">
                 <div class="col-3"></div>
-                <div class="col-6">
-                    <form id="editForm" method="POST" action="/edit/{{ row[0] }}">
-                        <div class="mb-3">
-                            <label for="inputname" class="form-label" style="font-weight: bold;">ลงชื่อผู้เบิก</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ row[2] }}" required>
+                <form id="editForm" method="POST" action="/edit/{{ row[0] }}">
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <div class="mb-3">
+                                <label for="inputName" class="form-label" style="font-weight: bold;">ลงชื่อผู้อัพโหลด
+                                    (Uploader Name)</label>
+                                <input type="text" class="form-control" id="inputName" name="inputName"
+                                    placeholder="ชื่อจริง หรือ ชื่อเล่น (Full Name Or Nickname)" value="{{ row[2] }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="callDate" class="form-label" style="font-weight: bold;">วันที่ (Call
+                                    Date)</label>
+                                <input type="text" class="form-control" id="callDate" name="callDate"
+                                    value="{{ row[7] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dateSign" class="form-label" style="font-weight: bold;">ลงวันที่ (Date
+                                    Sign)</label>
+                                <input type="text" class="form-control" id="dateSign" name="dateSign"
+                                    value="{{ row[9] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="forContinue" class="form-label" style="font-weight: bold;">เพื่อ-ต่อ (For
+                                    Continue)</label>
+                                <input type="text" class="form-control" id="forContinue" name="forContinue"
+                                    value="{{ row[11] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="duringTheDay" class="form-label" style="font-weight: bold;">ระหว่างวันที่
+                                    (During The Day)</label>
+                                <input type="text" class="form-control" id="duringTheDay" name="duringTheDay"
+                                    value="{{ row[13] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="moneyCategory" class="form-label" style="font-weight: bold;">หมวดเงิน (Money
+                                    Category)</label>
+                                <input type="text" class="form-control" id="moneyCategory" name="moneyCategory"
+                                    value="{{ row[15] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="money" class="form-label" style="font-weight: bold;">จำนวนเงิน (Money
+                                    Amount)</label>
+                                <input type="text" class="form-control" id="money" name="money" value="{{ row[17] }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nameUpper" class="form-label" style="font-weight: bold;">ชื่อบน (Name
+                                    Upper)</label>
+                                <input type="text" class="form-control" id="nameUpper" name="nameUpper"
+                                    value="{{ row[19] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nameLower" class="form-label" style="font-weight: bold;">ชื่อล่าง (Name
+                                    Lower)</label>
+                                <input type="text" class="form-control" id="nameLower" name="nameLower"
+                                    value="{{ row[21] }}" required>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-success btn-lg" style="margin: 30px;"
-                            data-bs-toggle="modal" data-bs-target="#editModal">SAVE</button>
-                    </form>
-                    <div id="dialog" title="Success" style="display: none;">
-                        Your form was submitted successfully!
+                        <div class="col-md-6 text-center">
+                            <div class="mb-3">
+                                <label for="callTime" class="form-label" style="font-weight: bold;">โทรภายใน (Call
+                                    Time)</label>
+                                <input type="text" class="form-control" id="callTime" name="callTime"
+                                    value="{{ row[6] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label" style="font-weight: bold;">บันทึกข้อความที่
+                                    (Message)</label>
+                                <input type="text" class="form-control" id="message" name="message" value="{{ row[8] }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="for" class="form-label" style="font-weight: bold;">เพื่อ (For)</label>
+                                <input type="text" class="form-control" id="for" name="for" value="{{ row[10] }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="on" class="form-label" style="font-weight: bold;">ณ (On)</label>
+                                <input type="text" class="form-control" id="on" name="on" value="{{ row[12] }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="duringTheDayContinue" class="form-label"
+                                    style="font-weight: bold;">ระหว่างวันที่-ต่อ (During The Day Continue)</label>
+                                <input type="text" class="form-control" id="duringTheDayContinue"
+                                    name="duringTheDayContinue" value="{{ row[14] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="list" class="form-label" style="font-weight: bold;">รายการ (List)</label>
+                                <input type="text" class="form-control" id="list" name="list" value="{{ row[16] }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="thaiMoney" class="form-label" style="font-weight: bold;">จำนวนภาษาไทย (Thai
+                                    Language Money)</label>
+                                <input type="text" class="form-control" id="thaiMoney" name="thaiMoney"
+                                    value="{{ row[18] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="positionUpper" class="form-label" style="font-weight: bold;">ตำแหน่งบน
+                                    (Position Upper)</label>
+                                <input type="text" class="form-control" id="positionUpper" name="positionUpper"
+                                    value="{{ row[20] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="positionLower" class="form-label" style="font-weight: bold;">ตำแหน่งล่าง
+                                    (Position Lower)</label>
+                                <input type="text" class="form-control" id="positionLower" name="positionLower"
+                                    value="{{ row[22] }}" required>
+                            </div>
+                        </div>
                     </div>
+                    <button type="button" class="btn btn-success btn-lg" style="margin: 30px;" data-bs-toggle="modal"
+                        data-bs-target="#editModal">SAVE</button>
+                </form>
+                <div id="dialog" title="Success" style="display: none;">
+                    Your form was submitted successfully!
                 </div>
                 <div class="col-3"></div>
             </div>
@@ -88,22 +195,29 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             let adminPassword;
+            let adminUser;
 
-            fetch('/get_admin_password')
+            fetch('/check_admin_password?user=' + encodeURIComponent(adminUser) + '&password=' + encodeURIComponent(adminPassword))
                 .then(response => response.json())
                 .then(data => {
+                    adminUser = data.user;
                     adminPassword = data.password;
                 });
 
             document.getElementById('confirmEdit').addEventListener('click', function () {
+                const enteredUser = document.getElementById('admin_user').value;
                 const enteredPassword = document.getElementById('admin_password').value;
                 const passwordError = document.getElementById('passwordError');
 
-                if (enteredPassword === adminPassword) {
-                    document.getElementById('editForm').submit();
-                } else {
-                    passwordError.style.display = 'block';
-                }
+                fetch('/check_admin_password?user=' + encodeURIComponent(enteredUser) + '&password=' + encodeURIComponent(enteredPassword))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.valid) {
+                            document.getElementById('editForm').submit();
+                        } else {
+                            passwordError.style.display = 'block';
+                        }
+                    });
             });
         });
     </script>

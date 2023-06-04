@@ -20,14 +20,16 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Please enter the password to confirm deletion:</p>
-                    <input type="password" name="delete_password" id="delete_password" class="form-control"  placeholder="Admin Password" required>
-                    <div id="passwordError" class="alert alert-danger mt-2" style="display: none;">Incorrect password
-                    </div>
+                    <p>Please enter the user and password to confirm delete:</p>
+                    <input type="text" class="form-control" id="admin_user" placeholder="Admin User" required>
+                    <br>
+                    <input type="password" class="form-control" id="admin_password" placeholder="Admin Password" required>
+                    <div id="passwordError" class="alert alert-danger mt-2" style="display: none;">Incorrect user or
+                        password.</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -88,25 +90,31 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <script>
-        // Check password to delete
         document.addEventListener('DOMContentLoaded', function () {
-            let deletePassword;
+            let adminPassword;
+            let adminUser;
 
-            fetch('/get_admin_password')
+            fetch('/check_admin_password?user=' + encodeURIComponent(adminUser) + '&password=' + encodeURIComponent(adminPassword))
                 .then(response => response.json())
                 .then(data => {
-                    deletePassword = data.password;
+                    adminUser = data.user;
+                    adminPassword = data.password;
                 });
 
             document.getElementById('confirmDelete').addEventListener('click', function () {
-                const enteredPassword = document.getElementById('delete_password').value;
+                const enteredUser = document.getElementById('admin_user').value;
+                const enteredPassword = document.getElementById('admin_password').value;
                 const passwordError = document.getElementById('passwordError');
 
-                if (enteredPassword === deletePassword) {
-                    document.getElementById('deleteForm').submit();
-                } else {
-                    passwordError.style.display = 'block';
-                }
+                fetch('/check_admin_password?user=' + encodeURIComponent(enteredUser) + '&password=' + encodeURIComponent(enteredPassword))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.valid) {
+                            document.getElementById('deleteForm').submit();
+                        } else {
+                            passwordError.style.display = 'block';
+                        }
+                    });
             });
         });
         // Check all

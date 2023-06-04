@@ -13,8 +13,7 @@
             <h1 class="text-center">Upload Files</h1>
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <img id="fileImage" class="file-image" src="/static/images/file.png" alt="" width="200px"
-                        height="200px">
+                    <img id="fileImage" class="file-image" src="/static/images/file.png" alt="" width="200px" height="200px">
                 </div>
                 <div class="col-md-6">
                     {% with messages = get_flashed_messages() %}
@@ -26,30 +25,117 @@
                     </ul>
                     {% endif %}
                     {% endwith %}
-
+    
                     <form action="/" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="formFileMultiple" class="form-label"
-                                style="font-size: larger; font-weight: bold;">แบบฟอร์ม</label>
-                            <input name="files[]" class="form-control custom-file-input" type="file"
-                                id="formFileMultiple" multiple required onchange="updateImage()">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputTelTime" class="form-label"
-                                style="font-weight: bold;">ลงชื่อผู้เบิก</label>
-                            <input type="text" class="form-control" id="inputName" name="inputName"
-                                placeholder="เช่น พงศ์นรา นาคดี" required>
+                            <label for="formFile" class="form-label" style="font-size: larger; font-weight: bold;">อัพโหลดแบบฟอร์ม (Upload Image)</label>
+                            <input name="file" class="form-control" type="file" id="formFile" required onchange="updateImage()"/>
                         </div>
                         <button type="submit" class="btn btn-success btn-lg">PROCESS</button>
-                    </form>
+                    </form>                    
                 </div>
+
+                {% if processed_image %}
+                <div class="col-md-6 text-center">
+                    <div class="mt-4 text-center">
+                        <h3>Processed Image</h3>
+                        <div style="margin: 10px;">
+                            <img class="img-fluid" style="max-width: 50%;" src="{{ url_for('static', filename='uploads/' + processed_image) }}" alt="Processed Image">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <form action="/save_data" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="processed_image" value="{{ processed_image }}">
+                        <div class="row">
+                            <div class="col-md-6 text-center">
+                                <div class="mb-3">
+                                    <label for="inputName" class="form-label" style="font-weight: bold;">ลงชื่อผู้อัพโหลด (Uploader Name)</label>
+                                    <input type="text" class="form-control" id="inputName" name="inputName" placeholder="ชื่อจริง หรือ ชื่อเล่น (Full Name Or Nickname)" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="callDate" class="form-label" style="font-weight: bold;">วันที่ (Call Date)</label>
+                                    <input type="text" class="form-control" id="callDate" name="callDate" value="{{ data_text[1][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="dateSign" class="form-label" style="font-weight: bold;">ลงวันที่ (Date Sign)</label>
+                                    <input type="text" class="form-control" id="dateSign" name="dateSign" value="{{ data_text[3][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="forContinue" class="form-label" style="font-weight: bold;">เพื่อ-ต่อ (For Continue)</label>
+                                    <input type="text" class="form-control" id="forContinue" name="forContinue" value="{{ data_text[5][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="duringTheDay" class="form-label" style="font-weight: bold;">ระหว่างวันที่ (During The Day)</label>
+                                    <input type="text" class="form-control" id="duringTheDay" name="duringTheDay" value="{{ data_text[7][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="moneyCategory" class="form-label" style="font-weight: bold;">หมวดเงิน (Money Category)</label>
+                                    <input type="text" class="form-control" id="moneyCategory" name="moneyCategory" value="{{ data_text[9][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="money" class="form-label" style="font-weight: bold;">จำนวนเงิน (Money Amount)</label>
+                                    <input type="text" class="form-control" id="money" name="money" value="{{ data_text[11][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nameUpper" class="form-label" style="font-weight: bold;">ชื่อบน (Name Upper)</label>
+                                    <input type="text" class="form-control" id="nameUpper" name="nameUpper" value="{{ data_text[13][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nameLower" class="form-label" style="font-weight: bold;">ชื่อล่าง (Name Lower)</label>
+                                    <input type="text" class="form-control" id="nameLower" name="nameLower" value="{{ data_text[15][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <div class="mb-3">
+                                    <label for="callTime" class="form-label" style="font-weight: bold;">โทรภายใน (Call Time)</label>
+                                    <input type="text" class="form-control" id="callTime" name="callTime" value="{{ data_text[0][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label" style="font-weight: bold;">บันทึกข้อความที่ (Message)</label>
+                                    <input type="text" class="form-control" id="message" name="message" value="{{ data_text[2][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="for" class="form-label" style="font-weight: bold;">เพื่อ (For)</label>
+                                    <input type="text" class="form-control" id="for" name="for" value="{{ data_text[4][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="on" class="form-label" style="font-weight: bold;">ณ (On)</label>
+                                    <input type="text" class="form-control" id="on" name="on" value="{{ data_text[6][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="duringTheDayContinue" class="form-label" style="font-weight: bold;">ระหว่างวันที่-ต่อ (During The Day Continue)</label>
+                                    <input type="text" class="form-control" id="duringTheDayContinue" name="duringTheDayContinue" value="{{ data_text[8][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="list" class="form-label" style="font-weight: bold;">รายการ (List)</label>
+                                    <input type="text" class="form-control" id="list" name="list" value="{{ data_text[10][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="thaiMoney" class="form-label" style="font-weight: bold;">จำนวนภาษาไทย (Thai Language Money)</label>
+                                    <input type="text" class="form-control" id="thaiMoney" name="thaiMoney" value="{{ data_text[12][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="positionUpper" class="form-label" style="font-weight: bold;">ตำแหน่งบน (Position Upper)</label>
+                                    <input type="text" class="form-control" id="positionUpper" name="positionUpper" value="{{ data_text[14][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="positionLower" class="form-label" style="font-weight: bold;">ตำแหน่งล่าง (Position Lower)</label>
+                                    <input type="text" class="form-control" id="positionLower" name="positionLower" value="{{ data_text[16][0].replace('[','').replace(']','') }}" required>
+                                </div>
+                            </div>                                                                                                                           
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg">SAVE</button>
+                    </form>
+                </div>                
+                {% endif %}                
             </div>
         </div>
-    </center>
+    </center>    
     <!-- Body End -->
     <script>
         function updateImage() {
-            const input = document.getElementById("formFileMultiple");
+            const input = document.getElementById("formFile");
             const image = document.getElementById("fileImage");
 
             // Display the first selected file's image or reset to the upload image icon
@@ -69,7 +155,7 @@
             }
         }
 
-        document.getElementById("formFileMultiple").addEventListener("change", updateImage);
+        document.getElementById("formFile").addEventListener("change", updateImage);
     </script>
 
 
