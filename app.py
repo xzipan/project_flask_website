@@ -8,8 +8,6 @@ from PIL import Image
 from flask import Flask, flash, request, redirect, render_template, jsonify
 from flask_mysqldb import MySQL
 from keras.models import load_model
-from pythainlp.util import collate
-from tensorflow.keras.layers.experimental.preprocessing import StringLookup
 from document_scanner import document_scanner
 
 app = Flask(__name__, static_url_path='/static')
@@ -82,9 +80,9 @@ def num_char():
     AUTOTUNE = tf.data.AUTOTUNE
     #สับคำว่ามีตัวพญัญชนะ
     # Mapping characters to integers.
-    char_to_num = StringLookup(vocabulary=xx, mask_token=None)
+    char_to_num = tf.keras.layers.StringLookup(vocabulary=xx, mask_token=None)
     # Mapping integers back to original characters.
-    num_to_char = StringLookup(vocabulary=char_to_num.get_vocabulary(), mask_token=None, invert=True)
+    num_to_char = tf.keras.layers.StringLookup(vocabulary=char_to_num.get_vocabulary(), mask_token=None, invert=True)
     
     return num_to_char,max_len,char_to_num
 
