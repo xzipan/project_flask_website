@@ -8,6 +8,8 @@ from PIL import Image
 from flask import Flask, flash, request, redirect, render_template, jsonify
 from flask_mysqldb import MySQL
 from keras.models import load_model
+from pythainlp.util import collate
+from tensorflow.keras.layers.experimental.preprocessing import StringLookup
 from document_scanner import document_scanner
 
 app = Flask(__name__, static_url_path='/static')
