@@ -13,10 +13,10 @@ from document_scanner import document_scanner
 app = Flask(__name__, static_url_path='/static')
 
 # Configure MySQL
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'flask'
+app.config['MYSQL_HOST'] = 'us-cdbr-east-06.cleardb.net'
+app.config['MYSQL_USER'] = 'bf9e1d1f88d3cf'
+app.config['MYSQL_PASSWORD'] = '03194b33'
+app.config['MYSQL_DB'] = 'heroku_cfcbe2c9adbf28f'
 
 # Initialize MySQL
 mysql = MySQL(app)
